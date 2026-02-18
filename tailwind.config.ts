@@ -63,14 +63,24 @@ const config: Config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        turacademia: {
+          blue: "#2563eb",
+          darkBlue: "#1e40af",
+          lightBlue: "#dbeafe",
+          black: "#000000",
+          darkGray: "#1f2937",
+          lightGray: "#f3f4f6",
+          accent: "#3b82f6",
+        },
+        // Mantém aliases antigos para compatibilidade
         fitpro: {
-          purple: "#9b87f5",
-          darkPurple: "#7E69AB",
-          lightPurple: "#E5DEFF",
+          purple: "#2563eb",
+          darkPurple: "#1e40af",
+          lightPurple: "#dbeafe",
           gray: "#8E9196",
           lightGray: "#F1F1F1",
           darkGray: "#222222",
-          blue: "#1EAEDB",
+          blue: "#2563eb",
         },
       },
       borderRadius: {

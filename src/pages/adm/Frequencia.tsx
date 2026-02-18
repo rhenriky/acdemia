@@ -140,51 +140,56 @@ const Frequencia = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white rounded-xl shadow-lg flex flex-col gap-8">
-      <h1 className="text-4xl font-extrabold text-center text-gray-900 tracking-tight select-none">
-        Frequência
-      </h1>
-
-      <div className="flex justify-center">
-        <label htmlFor="date" className="sr-only">
-          Selecionar data
-        </label>
-        <input
-          id="date"
-          type="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
-          disabled={loading || saving}
-          className="border border-gray-300 rounded-lg px-5 py-3 text-lg
-            focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-600
-            transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="Selecionar data para frequência"
-        />
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold text-gray-800">
+          Controle de Frequência
+        </h1>
+        <p className="text-sm text-gray-500">
+          Registre a presença dos membros
+        </p>
       </div>
 
-      <div className="overflow-x-auto">
-        <table
-          className="w-full table-auto border-collapse rounded-lg overflow-hidden
-          shadow-md border border-gray-200"
-          role="table"
-          aria-label="Tabela de membros para frequência"
-        >
-          <thead className="bg-indigo-50">
-            <tr>
-              <th
-                scope="col"
-                className="text-left px-6 py-4 font-semibold text-indigo-900 select-none"
-              >
-                Nome
-              </th>
-              <th
-                scope="col"
-                className="text-center px-6 py-4 font-semibold text-indigo-900 select-none"
-              >
-                Presente
-              </th>
-            </tr>
-          </thead>
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center justify-between mb-6">
+          <label htmlFor="date" className="text-sm font-medium text-gray-700">
+            Selecionar Data
+          </label>
+          <input
+            id="date"
+            type="date"
+            value={date}
+            onChange={e => setDate(e.target.value)}
+            disabled={loading || saving}
+            className="border border-gray-300 rounded-lg px-4 py-2
+              focus:outline-none focus:ring-2 focus:ring-fitpro-purple focus:border-fitpro-purple
+              transition disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Selecionar data para frequência"
+          />
+        </div>
+
+        <div className="overflow-x-auto">
+          <table
+            className="w-full table-auto border-collapse"
+            role="table"
+            aria-label="Tabela de membros para frequência"
+          >
+            <thead className="bg-gray-50 border-b">
+              <tr>
+                <th
+                  scope="col"
+                  className="text-left px-6 py-3 font-semibold text-gray-700 select-none"
+                >
+                  Nome
+                </th>
+                <th
+                  scope="col"
+                  className="text-center px-6 py-3 font-semibold text-gray-700 select-none"
+                >
+                  Presente
+                </th>
+              </tr>
+            </thead>
           <tbody>
             {loading ? (
               <tr>
@@ -205,20 +210,20 @@ const Frequencia = () => {
               members.map((member, i) => (
                 <tr
                   key={member.id}
-                  className={i % 2 === 0 ? 'bg-white' : 'bg-indigo-50'}
+                  className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
                 >
-                  <td className="px-6 py-4 text-gray-800 font-medium select-text">
+                  <td className="px-6 py-4 text-gray-800 font-medium select-text border-b">
                     {member.full_name}
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-6 py-4 text-center border-b">
                     <input
                       type="checkbox"
                       id={`presence-${member.id}`}
                       checked={!!presence[member.id]}
                       onChange={() => togglePresence(member.id)}
                       disabled={loading || saving}
-                      className="w-6 h-6 rounded border-gray-300 text-indigo-600
-                        focus:ring-indigo-500 cursor-pointer transition"
+                      className="w-5 h-5 rounded border-gray-300 text-fitpro-purple
+                        focus:ring-fitpro-purple cursor-pointer transition"
                       aria-label={`Marcar presença de ${member.full_name}`}
                     />
                   </td>
@@ -226,20 +231,19 @@ const Frequencia = () => {
               ))
             )}
           </tbody>
-        </table>
-      </div>
+          </table>
+        </div>
 
-      <div className="flex justify-center">
-        <Button
-          onClick={handleSave}
-          disabled={loading || saving}
-          className="px-8 py-4 text-xl font-semibold rounded-lg
-            bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed
-            transition-shadow shadow-indigo-400/50"
-          aria-live="polite"
-        >
-          {(saving && 'Salvando...') || 'Salvar Presença'}
-        </Button>
+        <div className="mt-6 flex justify-end">
+          <Button
+            onClick={handleSave}
+            disabled={loading || saving}
+            className="px-6 py-2"
+            aria-live="polite"
+          >
+            {(saving && 'Salvando...') || 'Salvar Presença'}
+          </Button>
+        </div>
       </div>
     </div>
   );

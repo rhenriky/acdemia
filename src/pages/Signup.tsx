@@ -67,8 +67,8 @@ const Signup = () => {
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8 card-shadow">
         <div className="flex justify-center mb-8">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-fitpro-darkPurple">Academia Moviment</h1>
-            <p className="text-fitpro-gray mt-2">Crie sua conta no sistema FitPro Gym</p>
+            <h1 className="text-3xl font-bold text-gray-900">TurAcademia</h1>
+            <p className="text-gray-600 mt-2">Crie sua conta no sistema</p>
           </div>
         </div>
 

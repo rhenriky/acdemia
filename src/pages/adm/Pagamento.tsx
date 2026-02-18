@@ -115,21 +115,26 @@ const Pagamento = () => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center text-zinc-800">💰 Gerar Pagamento</h1>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold text-gray-800">Gerenciar Pagamentos</h1>
+        <p className="text-sm text-gray-500">Gere códigos de pagamento para os membros</p>
+      </div>
 
-      <div className="bg-white shadow-md rounded-2xl p-6 space-y-6">
+      <div className="bg-white shadow-md rounded-lg p-6 space-y-6">
         {/* Membro */}
         <div>
           <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700">
-            <User className="w-4 h-4" /> Membro
+            <User className="w-4 h-4 text-fitpro-purple" /> Selecionar Membro
           </label>
           <select
             value={selectedMemberId}
             onChange={e => setSelectedMemberId(e.target.value)}
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full
+              focus:outline-none focus:ring-2 focus:ring-fitpro-purple focus:border-fitpro-purple
+              transition"
           >
-            <option value="">Selecione um membro</option>
+            <option value="">Escolha um membro</option>
             {members.map(m => (
               <option key={m.id} value={m.id}>{m.full_name}</option>
             ))}
@@ -139,28 +144,31 @@ const Pagamento = () => {
         {/* Plano */}
         <div>
           <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700">
-            <CreditCard className="w-4 h-4" /> Plano
+            <CreditCard className="w-4 h-4 text-fitpro-purple" /> Plano Selecionado
           </label>
           <Input
-            value={selectedPlan ? `${selectedPlan.name} - R$ ${selectedPlan.price.toFixed(2)}` : ''}
+            value={selectedPlan ? `${selectedPlan.name} - R$ ${selectedPlan.price.toFixed(2)}` : 'Nenhum plano selecionado'}
             readOnly
+            className="bg-gray-50"
           />
         </div>
 
         {/* Método de Pagamento */}
         <div>
           <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700">
-            <Barcode className="w-4 h-4" /> Método de Pagamento
+            <Barcode className="w-4 h-4 text-fitpro-purple" /> Método de Pagamento
           </label>
           <select
             value={paymentMethod}
             onChange={e => setPaymentMethod(e.target.value as 'boleto' | 'pix' | '')}
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full
+              focus:outline-none focus:ring-2 focus:ring-fitpro-purple focus:border-fitpro-purple
+              transition"
             disabled={!selectedPlan}
           >
-            <option value="">Selecione o método</option>
-            <option value="boleto">Boleto</option>
-            <option value="pix">Pix</option>
+            <option value="">Escolha o método de pagamento</option>
+            <option value="boleto">Boleto Bancário</option>
+            <option value="pix">PIX</option>
           </select>
         </div>
 
@@ -169,18 +177,24 @@ const Pagamento = () => {
           onClick={generatePaymentCode}
           disabled={!paymentMethod || !selectedPlan}
           className="w-full flex items-center justify-center gap-2"
+          variant="outline"
         >
           <Barcode className="w-4 h-4" />
-          Gerar Código
+          Gerar Código de Pagamento
         </Button>
 
         {/* Código gerado */}
         {paymentCode && (
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">Código Gerado</label>
-            <div className="bg-gray-100 rounded-lg px-4 py-3 font-mono text-center break-all">
+          <div className="border-2 border-fitpro-purple rounded-lg p-4 bg-purple-50">
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              Código Gerado - {paymentMethod === 'pix' ? 'Chave PIX' : 'Código de Barras'}
+            </label>
+            <div className="bg-white rounded-lg px-4 py-3 font-mono text-sm text-center break-all border">
               {paymentCode}
             </div>
+            <p className="text-xs text-gray-500 mt-2 text-center">
+              Copie este código para realizar o pagamento
+            </p>
           </div>
         )}
 
@@ -188,10 +202,10 @@ const Pagamento = () => {
         <Button
           onClick={handleSavePayment}
           disabled={isLoading || !paymentCode}
-          className="w-full flex items-center justify-center gap-2"
+          className="w-full flex items-center justify-center gap-2 bg-fitpro-purple hover:bg-fitpro-darkPurple"
         >
           <Save className="w-4 h-4" />
-          {isLoading ? 'Salvando...' : 'Salvar Pagamento'}
+          {isLoading ? 'Salvando...' : 'Registrar Pagamento'}
         </Button>
       </div>
     </div>

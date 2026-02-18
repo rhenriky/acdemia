@@ -73,25 +73,27 @@ const MemberForm = () => {
           .select('*')
           .order('name', { ascending: true });
           
-        if (error) throw error;
-        
-        if (data && data.length > 0) {
-          setPlans(data);
-        } else {
-          // Mock data if no real data exists
+        // Usar dados mockados se não houver no banco ou houver erro
+        if (error || !data || data.length === 0) {
+          console.log('Usando planos mockados');
           setPlans([
-            { id: 1, name: 'Mensal', description: 'Plano mensal básico', price: 100, duration_months: 1 },
-            { id: 2, name: 'Trimestral', description: 'Plano trimestral com desconto', price: 270, duration_months: 3 },
-            { id: 3, name: 'Anual', description: 'Plano anual com grande desconto', price: 960, duration_months: 12 }
+            { id: 1, name: 'Mensal', description: 'Plano mensal básico', price: 99.90, duration_months: 1 },
+            { id: 2, name: 'Trimestral', description: 'Plano trimestral com desconto', price: 269.70, duration_months: 3 },
+            { id: 3, name: 'Semestral', description: 'Plano semestral com desconto', price: 509.40, duration_months: 6 },
+            { id: 4, name: 'Anual', description: 'Plano anual com grande desconto', price: 959.00, duration_months: 12 }
           ]);
+        } else {
+          setPlans(data);
         }
       } catch (error) {
         console.error('Error fetching plans:', error);
-        toast({
-          title: "Erro",
-          description: "Não foi possível carregar os planos.",
-          variant: "destructive",
-        });
+        // Usar planos mockados em caso de erro
+        setPlans([
+          { id: 1, name: 'Mensal', description: 'Plano mensal básico', price: 99.90, duration_months: 1 },
+          { id: 2, name: 'Trimestral', description: 'Plano trimestral com desconto', price: 269.70, duration_months: 3 },
+          { id: 3, name: 'Semestral', description: 'Plano semestral com desconto', price: 509.40, duration_months: 6 },
+          { id: 4, name: 'Anual', description: 'Plano anual com grande desconto', price: 959.00, duration_months: 12 }
+        ]);
       }
     };
 

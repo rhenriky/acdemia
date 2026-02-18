@@ -17,9 +17,9 @@ import MemberProfile from "@/pages/adm/MemberProfile";
 import NotFound from "@/pages/NotFound";
 import Frequencia from "@/pages/adm/Frequencia";
 import Pagamento from "@/pages/adm/Pagamento";
-import AgendaAdm from "@/pages/adm/AdminAgenda";  // Importação da tela AgendaAdm
-import TrainingForm from '@/pages/adm/CadastroTreino'; // caminho conforme sua estrutura
-//import Settings from "@/pages/settings";
+import AgendaAdm from "@/pages/adm/AdminAgenda";
+import TrainingForm from '@/pages/adm/CadastroTreino';
+import Settings from "@/pages/adm/Settings";
 
 
 const queryClient = new QueryClient();
@@ -47,8 +47,7 @@ const App = () => (
             <Route path="/agenda" element={<Layout><AgendaAdm /></Layout>} />
             <Route path="/payments" element={<Layout><Pagamento /></Layout>} />
             <Route path="/trainings" element={<Layout><TrainingForm /></Layout>} />
-
-
+            <Route path="/settings" element={<Layout><Settings /></Layout>} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

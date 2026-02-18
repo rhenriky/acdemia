@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/components/ui/use-toast';
-import { Users, CheckCircle, AlertCircle, BarChart } from 'lucide-react';
+import { Users, CheckCircle, AlertCircle, BarChart, TrendingUp, DollarSign, Calendar, Activity } from 'lucide-react';
 import {
   BarChart as ReBarChart,
   Bar,
@@ -11,8 +11,15 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
 } from 'recharts';
+import { Button } from '@/components/ui/button';
 
 interface DashboardStats {
   activeMembers: number;
@@ -156,32 +163,39 @@ const Dashboard = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="card-shadow">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="card-shadow hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-sm font-medium text-gray-500">
               Membros Ativos
             </CardTitle>
-            <Users className="h-5 w-5 text-fitpro-purple" />
+            <div className="bg-purple-100 p-2 rounded-lg">
+              <Users className="h-5 w-5 text-fitpro-purple" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{stats.activeMembers}</div>
-            <p className="text-xs text-muted-foreground">
-              +2 novos membros esta semana
-            </p>
+            <div className="flex items-center gap-1 mt-2">
+              <TrendingUp className="h-4 w-4 text-green-500" />
+              <p className="text-xs text-green-500 font-medium">
+                +12% vs mês passado
+              </p>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="card-shadow">
+        <Card className="card-shadow hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-sm font-medium text-gray-500">
               Pagamentos em Dia
             </CardTitle>
-            <CheckCircle className="h-5 w-5 text-green-500" />
+            <div className="bg-green-100 p-2 rounded-lg">
+              <CheckCircle className="h-5 w-5 text-green-500" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{stats.paidMembers}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-2">
               {stats.activeMembers > 0
                 ? Math.round((stats.paidMembers / stats.activeMembers) * 100)
                 : 0}
@@ -190,27 +204,49 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="card-shadow">
+        <Card className="card-shadow hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-sm font-medium text-gray-500">
               Planos a Vencer
             </CardTitle>
-            <AlertCircle className="h-5 w-5 text-amber-500" />
+            <div className="bg-amber-100 p-2 rounded-lg">
+              <AlertCircle className="h-5 w-5 text-amber-500" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{stats.expiringPlans}</div>
-            <p className="text-xs text-muted-foreground">
-              Vencem nos próximos 7 dias
+            <p className="text-xs text-muted-foreground mt-2">
+              Próximos 7 dias
             </p>
+          </CardContent>
+        </Card>
+
+        <Card className="card-shadow hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardTitle className="text-sm font-medium text-gray-500">
+              Receita Mensal
+            </CardTitle>
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <DollarSign className="h-5 w-5 text-blue-500" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">R$ 0,00</div>
+            <div className="flex items-center gap-1 mt-2">
+              <TrendingUp className="h-4 w-4 text-green-500" />
+              <p className="text-xs text-green-500 font-medium">
+                +8% vs mês passado
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
-        <Card className="card-shadow">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="card-shadow lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <BarChart className="h-5 w-5" />
+              <Activity className="h-5 w-5 text-fitpro-purple" />
               Frequência Semanal
             </CardTitle>
           </CardHeader>
@@ -218,19 +254,68 @@ const Dashboard = () => {
             <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
                 <ReBarChart data={attendanceData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis 
+                    dataKey="name" 
+                    tick={{ fill: '#666' }}
+                    axisLine={{ stroke: '#e0e0e0' }}
+                  />
+                  <YAxis 
+                    tick={{ fill: '#666' }}
+                    axisLine={{ stroke: '#e0e0e0' }}
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'white',
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '8px',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                    }}
+                  />
                   <Bar
                     dataKey="count"
                     fill="#9b87f5"
-                    radius={[4, 4, 0, 0]}
-                    name="Frequência"
+                    radius={[8, 8, 0, 0]}
+                    name="Check-ins"
                   />
                 </ReBarChart>
               </ResponsiveContainer>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="card-shadow">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-fitpro-purple" />
+              Ações Rápidas
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button className="w-full justify-start" variant="outline" asChild>
+              <a href="/members/new">
+                <Users className="h-4 w-4 mr-2" />
+                Novo Membro
+              </a>
+            </Button>
+            <Button className="w-full justify-start" variant="outline" asChild>
+              <a href="/Frequencia">
+                <CheckCircle className="h-4 w-4 mr-2" />
+                Registrar Presença
+              </a>
+            </Button>
+            <Button className="w-full justify-start" variant="outline" asChild>
+              <a href="/payments">
+                <DollarSign className="h-4 w-4 mr-2" />
+                Pagamentos
+              </a>
+            </Button>
+            <Button className="w-full justify-start" variant="outline" asChild>
+              <a href="/agenda">
+                <Calendar className="h-4 w-4 mr-2" />
+                Ver Agenda
+              </a>
+            </Button>
           </CardContent>
         </Card>
       </div>

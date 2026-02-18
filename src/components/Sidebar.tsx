@@ -51,11 +51,10 @@ export const Sidebar = () => {
       )}>
         {!collapsed ? (
           <div className="flex items-center select-none">
-            <span className="text-2xl font-extrabold text-fitpro-purple tracking-wide">FitPro</span>
-            <span className="text-2xl font-extrabold ml-1 text-fitpro-darkPurple tracking-wide">Gym</span>
+            <span className="text-2xl font-extrabold text-blue-600 tracking-wide">TurAcademia</span>
           </div>
         ) : (
-          <div className="text-2xl font-extrabold text-fitpro-purple select-none">FP</div>
+          <div className="text-2xl font-extrabold text-blue-600 select-none">TA</div>
         )}
         <button
           type="button"

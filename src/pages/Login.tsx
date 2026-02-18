@@ -81,7 +81,7 @@ const Login = () => {
           {/* Card de login */}
           <div className="bg-white text-black rounded-xl shadow-md p-8 w-full max-w-md">
             <div className="text-center mb-6">
-              <h1 className="text-3xl font-bold text-black">Academia Moviment</h1>
+              <h1 className="text-3xl font-bold text-black">TurAcademia</h1>
             </div>
 
             {error && (
