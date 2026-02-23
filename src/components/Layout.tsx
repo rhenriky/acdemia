@@ -71,13 +71,13 @@ const Layout = ({ children }: LayoutProps) => {
   if (!user) return <Navigate to="/login" replace />;
 
   return (
-    <div className="flex min-h-screen bg-fitpro-lightGray text-fitpro-darkGray">
+    <div className="flex min-h-screen bg-fitpro-lightGray dark:bg-gray-950 text-fitpro-darkGray dark:text-gray-100 transition-colors duration-300">
       {/* Sidebar desktop fixo */}
       <aside
         ref={sidebarRef}
         aria-label="Navegação lateral"
         className={`
-          fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200
+          fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700
           transform transition-transform duration-300 ease-in-out
           md:translate-x-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -101,7 +101,7 @@ const Layout = ({ children }: LayoutProps) => {
       {/* Conteúdo principal */}
       <div className="flex flex-col flex-1 min-h-screen md:ml-64">
         {/* Header mobile com botão para abrir sidebar */}
-        <header className="md:hidden flex items-center bg-white border-b border-gray-200 px-4 py-3 shadow-sm">
+        <header className="md:hidden flex items-center bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 shadow-sm">
           <button
             ref={buttonRef}
             onClick={() => setSidebarOpen(true)}

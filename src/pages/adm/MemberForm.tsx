@@ -36,8 +36,12 @@ const formSchema = z.object({
     message: "CPF/ID deve ter pelo menos 11 caracteres.",
   }),
   phone: z.string().optional(),
-  entry_date: z.string(),
-  plan_id: z.string(),
+  entry_date: z.string().min(1, {
+    message: "Data de entrada é obrigatória.",
+  }),
+  plan_id: z.string().min(1, {
+    message: "Selecione um plano.",
+  }),
   status: z.boolean().default(true),
   notes: z.string().optional(),
 });
@@ -154,11 +158,11 @@ const MemberForm = () => {
       const memberData = {
         full_name: values.full_name,
         cpf_id: values.cpf_id,
-        phone: values.phone,
+        phone: values.phone || null,
         entry_date: values.entry_date,
         plan_id: parseInt(values.plan_id),
         status: values.status,
-        notes: values.notes,
+        notes: values.notes || null,
       };
 
       if (isEditing) {
@@ -167,18 +171,29 @@ const MemberForm = () => {
           .update(memberData)
           .eq('id', id);
           
-        if (error) throw error;
+        if (error) {
+          console.error('Erro ao atualizar membro:', error);
+          throw error;
+        }
         
         toast({
           title: "Sucesso!",
           description: "Membro atualizado com sucesso.",
         });
       } else {
-        const { error } = await supabase
+        console.log('Inserindo membro com dados:', memberData);
+        
+        const { data, error } = await supabase
           .from('members')
-          .insert([memberData]);
+          .insert([memberData])
+          .select();
           
-        if (error) throw error;
+        if (error) {
+          console.error('Erro ao inserir membro:', error);
+          throw error;
+        }
+        
+        console.log('Membro criado com sucesso:', data);
         
         toast({
           title: "Sucesso!",
@@ -187,11 +202,21 @@ const MemberForm = () => {
       }
       
       navigate('/members');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving member:', error);
+      
+      // Mensagem amigável para erro de CPF duplicado
+      let errorMessage = `Não foi possível ${isEditing ? 'atualizar' : 'cadastrar'} o membro.`;
+      
+      if (error?.code === '23505' || error?.message?.includes('duplicate')) {
+        errorMessage = 'Já existe um membro cadastrado com este CPF/ID.';
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Erro",
-        description: `Não foi possível ${isEditing ? 'atualizar' : 'cadastrar'} o membro.`,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

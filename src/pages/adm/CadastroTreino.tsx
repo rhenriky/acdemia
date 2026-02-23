@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 interface Member {
   id: string;
@@ -18,6 +23,7 @@ const CadastroTreino = () => {
   const [duration, setDuration] = useState('');
   const [level, setLevel] = useState<'iniciante' | 'intermediario' | 'avancado' | ''>('');
   const [responsible, setResponsible] = useState('');
+  const [trainingDate, setTrainingDate] = useState<Date | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -45,10 +51,10 @@ const CadastroTreino = () => {
   };
 
   const handleSubmit = async () => {
-    if (!name || !description || !duration || !level || !responsible) {
+    if (!name || !description || !duration || !level || !responsible || !trainingDate) {
       toast({
         title: 'Campos incompletos',
-        description: 'Por favor, preencha todos os campos.',
+        description: 'Por favor, preencha todos os campos, incluindo a data do treino.',
         variant: 'destructive',
       });
       return;
@@ -83,6 +89,7 @@ const CadastroTreino = () => {
         level,
         responsible,
         members: selectedMembers,
+        training_date: trainingDate.toISOString(),
         created_at: new Date().toISOString(),
       }]);
 
@@ -96,6 +103,7 @@ const CadastroTreino = () => {
       setDuration('');
       setLevel('');
       setResponsible('');
+      setTrainingDate(undefined);
       setSelectedMembers([]);
 
     } catch {
@@ -176,6 +184,32 @@ const CadastroTreino = () => {
             aria-label="Nome do responsável"
           />
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className="block font-semibold text-gray-700">Data do Treino</label>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              disabled={saving}
+              className={`w-full justify-start text-left font-normal border-gray-300 ${!trainingDate && 'text-gray-500'}`}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {trainingDate ? format(trainingDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR }) : 'Selecione uma data'}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={trainingDate}
+              onSelect={setTrainingDate}
+              locale={ptBR}
+              initialFocus
+              className="pointer-events-auto"
+            />
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div>

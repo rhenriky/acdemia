@@ -43,8 +43,10 @@ const Login = () => {
       {/* Navbar */}
       <header className="bg-black text-white px-6 py-4 flex justify-between items-center w-full fixed top-0 z-50">
         <div className="flex items-center space-x-2 text-lg font-semibold">
-          <img src="/logo.png" alt="Moviment logo" className="h-6 w-6" />
-          <span>Moviment</span>
+          <div className="h-8 w-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-sm">TA</span>
+          </div>
+          <span className="text-xl font-bold">TurAcademia</span>
         </div>
         <nav className="space-x-6 hidden md:flex items-center text-sm text-gray-300">
           <Link to="/" className="hover:text-white">Home</Link>
@@ -62,19 +64,32 @@ const Login = () => {
       {/* Conteúdo principal */}
       <div className="flex items-center justify-center min-h-screen px-4 pt-28 pb-10">
         <div className="grid md:grid-cols-2 w-full max-w-6xl items-center gap-10">
-          {/* Texto do lado esquerdo */}
-          <div className="space-y-6">
-            <p className="text-sm text-gray-400">Apresentando nosso sistema de academia de última geração</p>
-            <h1 className="text-4xl font-bold leading-tight">
-              Evolua conosco... <br />
-              <span className="text-white">Supere seus limites.</span>
-            </h1>
-            <p className="text-gray-300 max-w-md">
-              Bem-vindo à academia Moviment de última geração, onde nos dedicamos a capacitar nossos membros para atingir seu potencial máximo.
-            </p>
+          {/* Lado esquerdo - Imagem de academia */}
+          <div className="relative space-y-6">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <img 
+                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                alt="Academia TurAcademia" 
+                className="w-full h-[400px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <p className="text-sm text-gray-300 mb-2">Bem-vindo à</p>
+                <h1 className="text-4xl font-bold leading-tight mb-3">
+                  TurAcademia
+                </h1>
+                <p className="text-gray-300 max-w-md text-sm">
+                  Evolua conosco e supere seus limites. Equipamentos de última geração e profissionais qualificados para você alcançar seu potencial máximo.
+                </p>
+              </div>
+            </div>
             <div className="flex space-x-4">
-              <Button className="bg-white text-black px-6 hover:bg-gray-200">Começar</Button>
-              <Link to="/signup" className="text-sm underline text-gray-400 hover:text-white self-center">Cadastrar-se agora</Link>
+              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 hover:opacity-90">
+                Conhecer Planos
+              </Button>
+              <Link to="/signup" className="text-sm underline text-gray-400 hover:text-white self-center">
+                Cadastrar-se agora
+              </Link>
             </div>
           </div>
 

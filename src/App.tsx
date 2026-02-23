@@ -4,12 +4,16 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import Layout from "@/components/Layout";
 
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import ResetPassword from "@/pages/ResetPassword";
 import ResetPasswordRequest from "@/pages/ResetPasswordRequest";
+import Sobre from "@/pages/Sobre";
+import Servicos from "@/pages/Servicos";
+import Contato from "@/pages/Contato";
 import Dashboard from "@/pages/adm/Dashboard";
 import Members from "@/pages/adm/Members";
 import MemberForm from "@/pages/adm/MemberForm";
@@ -26,14 +30,18 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
+    <ThemeProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/sobre" element={<Sobre />} />
+            <Route path="/servicos" element={<Servicos />} />
+            <Route path="/contato" element={<Contato />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/reset-password-request" element={<ResetPasswordRequest />} />
             <Route path="/attendance" element={<Layout><Frequencia /></Layout>} />
@@ -54,6 +62,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
